@@ -1,6 +1,9 @@
 package utils
 
-import "time"
+import (
+	beego "github.com/beego/beego/v2/server/web"
+	"time"
+)
 
 /**
 格式化时间
@@ -22,4 +25,16 @@ func GetUnixNano() int64 {
 */
 func GetUnix() int64 {
 	return time.Now().Unix()
+}
+
+/**
+json返回
+ */
+func ToJson(controller beego.Controller,data interface{},msg interface{},code interface{}) {
+	controller.Data["json"] = map[string]interface{}{
+		"code":code,
+		"data":data,
+		"message":msg,
+	}
+	controller.ServeJSON()
 }

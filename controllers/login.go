@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
+	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/dgrijalva/jwt-go"
 	"time"
@@ -15,26 +16,30 @@ type LoginController struct {
 	beego.Controller
 }
 
+
+
 // @Title Register
 // @Description 用户注册
 // @Success 200
 // @router  /register  [post]
 func (l *LoginController) Register() {
-	username := l.GetString("username")
-	password := l.GetString("password")
-	if username == "" || password == "" {
+	valid := validation.Validation{}
+    user  := models.User{}
+    user.Username = l.GetString("username")
+    user.Password = l.GetString("password")
+    b,_ := valid.Valid(&user)
+    if !b {
 		l.Data["json"] = map[string]interface{}{
 			"code":    400,
-			"data":    "用户名密码不能为空",
-			"message": "用户名密码不能为空",
+			"data":    valid.Errors,
+			"message": valid.Errors,
 		}
 		l.ServeJSON()
 		return
 	}
 
-	var user models.User
-	user.Username = username
-	has := md5.Sum([]byte(password))
+
+	has := md5.Sum([]byte(user.Password))
 	user.Password = fmt.Sprintf("%x", has)
 	o := orm.NewOrm()
 	_, err := o.Insert(&user)
@@ -117,7 +122,7 @@ func (l *LoginController) Login() {
 func CreateToken(uid, secret string) (string, error) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"uid": uid,
-		"exp": time.Now().Add(time.Minute * 15).Unix(),
+		"exp": time.Now().Add(time.Minute * 30).Unix(),
 	})
 	token, err := at.SignedString([]byte(secret))
 	if err != nil {

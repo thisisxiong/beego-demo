@@ -21,11 +21,15 @@ func init() {
 			beego.NSBefore(middlerware.AdminAuth),
 			beego.NSInclude(
 				&admin.UserController{},
+				&admin.ArticleController{},
 			),
 		),
 		beego.NSInclude(
 			&controllers.LoginController{},
+			&controllers.TestController{},
+			&controllers.ListController{},
 		),
+
 	)
 	beego.AddNamespace(ns)
 }
