@@ -13,8 +13,12 @@ type ArticleController struct {
 
 // @Title Create
 // @Description 发布文章
+// @Param Authorization header string true 用户token
+// @Param user_id formData int true 文章作者
+// @Param title formData string false 文章标题
+// @Param content formData string false 文章内容
 // @Success 200
-// @router /article/add  [post]
+// @router /article/add [post]
 func (a *ArticleController) Create() {
 	article := models.Article{}
 	user := models.User{}
@@ -23,9 +27,9 @@ func (a *ArticleController) Create() {
 	err := a.ParseForm(&article)
 	if err != nil {
 		a.Data["json"] = map[string]interface{}{
-			"code" : 400,
-			"data" : err,
-			"message" : "接受参数失败",
+			"code":    400,
+			"data":    err,
+			"message": "接受参数失败",
 		}
 		a.ServeJSON()
 		return
@@ -35,17 +39,17 @@ func (a *ArticleController) Create() {
 	_, err = o.Insert(&article)
 	if err != nil {
 		a.Data["json"] = map[string]interface{}{
-			"code" : 400,
-			"data" : err.Error(),
-			"message" : article,
+			"code":    400,
+			"data":    err.Error(),
+			"message": article,
 		}
 		a.ServeJSON()
 		return
 	}
 	a.Data["json"] = map[string]interface{}{
-		"code" : 200,
-		"data" : article,
-		"message" : "发布成功",
+		"code":    200,
+		"data":    article,
+		"message": "发布成功",
 	}
 	a.ServeJSON()
 	return
@@ -53,12 +57,16 @@ func (a *ArticleController) Create() {
 
 // @Title Edit
 // @Description 更新文章
+// @Param Authorization header string true 用户token
+// @Param id formData int true 文章id
+// @Param title formData string false 文章标题
+// @Param content formData string false 文章内容
 // @Success 200
-// @router /article/update  [post]
+// @router /article/update [post]
 func (a *ArticleController) Edit() {
 	id, _ := a.GetInt("id")
 	if id == 0 {
-		utils.ToJson(a.Controller,"参数错误","文章id有误","400")
+		utils.ToJson(a.Controller, "参数错误", "文章id有误", "400")
 		return
 	}
 	o := orm.NewOrm()
@@ -68,16 +76,16 @@ func (a *ArticleController) Edit() {
 	if o.Read(&article) == nil {
 		err := a.ParseForm(&article)
 		if err != nil {
-			utils.ToJson(a.Controller,err.Error(),"参数错误","400")
+			utils.ToJson(a.Controller, err.Error(), "参数错误", "400")
 			return
 		}
 		_, err = o.Update(&article)
 		if err != nil {
-			utils.ToJson(a.Controller,err.Error(),"更新失败","400")
+			utils.ToJson(a.Controller, err.Error(), "更新失败", "400")
 			return
 		}
 
-		utils.ToJson(a.Controller,article,"更新成功","400")
+		utils.ToJson(a.Controller, article, "更新成功", "400")
 		return
 	}
 }

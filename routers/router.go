@@ -1,7 +1,7 @@
 // @APIVersion 1.0.0
-// @Title beego Test API
-// @Description beego has a very cool tools to autogenerate documents for your API
-// @Contact astaxie@gmail.com
+// @Title beego API Doc
+// @Description beego自动生成文档
+// @Contact admin@admin.com
 // @TermsOfServiceUrl http://beego.me/
 // @License Apache 2.0
 // @LicenseUrl http://www.apache.org/licenses/LICENSE-2.0.html
@@ -29,7 +29,6 @@ func init() {
 			&controllers.TestController{},
 			&controllers.ListController{},
 		),
-
 	)
 	beego.AddNamespace(ns)
 }

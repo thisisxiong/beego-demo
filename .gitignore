@@ -15,4 +15,4 @@
 # vendor/
 .idea
 conf/redis.conf
-
+/swagger.zip

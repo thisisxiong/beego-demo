@@ -40,7 +40,7 @@ func init() {
 // @Title Set
 // @Description 缓存设置
 // @Success 200
-// @router /cache/set  [get]
+// @router /cache/set [get]
 func (t *TestController) Set() {
 	err := cacheObj.Put(context.TODO(), "cacheKey", "cacheValue", time.Second*60)
 	if err != nil {
@@ -57,7 +57,7 @@ func (t *TestController) Set() {
 // @Title Get
 // @Description 缓存获取
 // @Success 200
-// @router /cache/get  [get]
+// @router /cache/get [get]
 func (t *TestController) Get() {
 	value, err := cacheObj.Get(context.TODO(), "cacheKey")
 	if err != nil {
@@ -82,7 +82,7 @@ func (t *TestController) Get() {
 // @Title Exist
 // @Description 缓存是否失效
 // @Success 200
-// @router /cache/exist  [get]
+// @router /cache/exist [get]
 func (t *TestController) IsExist() {
 	isExist, err := cacheObj.IsExist(context.TODO(), "cacheKey")
 	if err != nil {
@@ -112,13 +112,13 @@ func (t *TestController) IsExist() {
 // @Success 200
 // @router /logs [post]
 func (t *TestController) Output() {
-	typeName := t.GetString("type","cmd")
+	typeName := t.GetString("type", "cmd")
 	//日志自定义格式化
 	f := &logs.PatternLogFormatter{
-		Pattern: "文件全路径：%F 行数：%n | 时间：%w 消息级别：%T 》》》 %m \r\n",
+		Pattern:    "文件全路径：%F 行数：%n | 时间：%w 消息级别：%T 》》》 %m \r\n",
 		WhenFormat: "2006-01-02 15:04:05",
 	}
-	logs.RegisterFormatter("myformat",f)
+	logs.RegisterFormatter("myformat", f)
 	logs.SetGlobalFormatter("myformat")
 
 	log := logs.NewLogger()
@@ -127,25 +127,24 @@ func (t *TestController) Output() {
 	//包括：console、file、conn、smtp、es、multifile
 	var err error
 	switch typeName {
-		case "cmd":
-			err = log.SetLogger(logs.AdapterConsole, `{"level":7,"color":true,"formatter":"myformat"}`)
-		case "file":
-			err = log.SetLogger(logs.AdapterFile, `{"formatter":"myformat","filename":"app.log","level":7,"maxlines":0,"maxsize":0,"daily":true,"maxdays":3,"color":true}`)
-		case "multifile":
-			err = log.SetLogger(logs.AdapterMultiFile, `{"filename":"access.log","separate":["info","debug","error"]}`)
+	case "cmd":
+		err = log.SetLogger(logs.AdapterConsole, `{"level":7,"color":true,"formatter":"myformat"}`)
+	case "file":
+		err = log.SetLogger(logs.AdapterFile, `{"formatter":"myformat","filename":"app.log","level":7,"maxlines":0,"maxsize":0,"daily":true,"maxdays":3,"color":true}`)
+	case "multifile":
+		err = log.SetLogger(logs.AdapterMultiFile, `{"filename":"access.log","separate":["info","debug","error"]}`)
 	}
 	if err != nil {
-		utils.ToJson(t.Controller,err.Error(),err,"500")
+		utils.ToJson(t.Controller, err.Error(), err, "500")
 		return
 	}
-
 
 	log.Info(typeName)
 	log.Warn("this is warning")
 	log.Error("this is error")
 	log.Debug("this is debug")
 	log.Critical("this is crash")
-	utils.ToJson(t.Controller,typeName,"logs print","200")
+	utils.ToJson(t.Controller, typeName, "logs print", "200")
 	return
 
 }

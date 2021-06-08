@@ -12,8 +12,9 @@ type UserController struct {
 
 // @Title GetAll
 // @Description 获取用户列表
+// @Param Authorization header string true 用户token
 // @Success 200
-// @router /userinfo  [get]
+// @router /userinfo [get]
 func (uc *UserController) GetAll() {
 	var user []models.User
 	o := orm.NewOrm()

@@ -16,19 +16,19 @@ type LoginController struct {
 	beego.Controller
 }
 
-
-
 // @Title Register
 // @Description 用户注册
+// @Param username formData string true 用户名
+// @Param password formData string true 密码
 // @Success 200
-// @router  /register  [post]
+// @router /register [post]
 func (l *LoginController) Register() {
 	valid := validation.Validation{}
-    user  := models.User{}
-    user.Username = l.GetString("username")
-    user.Password = l.GetString("password")
-    b,_ := valid.Valid(&user)
-    if !b {
+	user := models.User{}
+	user.Username = l.GetString("username")
+	user.Password = l.GetString("password")
+	b, _ := valid.Valid(&user)
+	if !b {
 		l.Data["json"] = map[string]interface{}{
 			"code":    400,
 			"data":    valid.Errors,
@@ -37,7 +37,6 @@ func (l *LoginController) Register() {
 		l.ServeJSON()
 		return
 	}
-
 
 	has := md5.Sum([]byte(user.Password))
 	user.Password = fmt.Sprintf("%x", has)
@@ -65,6 +64,8 @@ func (l *LoginController) Register() {
 
 // @Title Login
 // @Description 用户登录
+// @Param username formData string true 用户名
+// @Param password formData string true 密码
 // @Success 200
 // @router /login [post]
 func (l *LoginController) Login() {
