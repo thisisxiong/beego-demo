@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/beego/beego/v2/client/cache"
 	_ "github.com/beego/beego/v2/client/cache/redis"
+	"github.com/beego/beego/v2/client/httplib"
 	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
@@ -147,4 +148,59 @@ func (t *TestController) Output() {
 	utils.ToJson(t.Controller, typeName, "logs print", "200")
 	return
 
+}
+
+// @Title HttpGet
+// @Description 客户端Get请求
+// @Success 200
+// @router /http/get [get]
+func (t *TestController) HttpGet() {
+	req := httplib.Get("http://127.0.0.1:8080/api/article/list")
+	str, err := req.String()
+	if err != nil {
+		utils.ToJson(t.Controller, err.Error(), err, "400")
+		return
+	}
+	utils.ToJson(t.Controller, str, "请求成功", "200")
+	return
+}
+
+// @Title HttpPost
+// @Description 客户端Post请求
+// @Success 200
+// @router /http/post [get]
+func (t *TestController) HttpPost() {
+	req := httplib.Post("http://127.0.0.1:8080/api/login").Param("username", "imooc").Param("password", "123456")
+	//str ,err := req.String() //直接返回请求的内容
+	var data map[string]interface{}
+	err := req.ToJSON(&data) //解析为json格式
+	if err != nil {
+		utils.ToJson(t.Controller, err.Error(), err, "400")
+		return
+	}
+	utils.ToJson(t.Controller, data, "请求成功", "200")
+	return
+
+}
+
+// @Title Context
+// @Description 上下文context对象
+// @Success 200
+// @router /context/info [get]
+func (t *TestController) Context() {
+	var data = map[string]interface{}{
+		"protocol": t.Ctx.Input.Protocol(),
+		"uri":      t.Ctx.Input.URI(),
+		"url":      t.Ctx.Input.URL(),
+		"site":     t.Ctx.Input.Site(),
+		"scheme":   t.Ctx.Input.Scheme(),
+		"domain":   t.Ctx.Input.Domain(),
+		"host":     t.Ctx.Input.Host(),
+		"method":   t.Ctx.Input.Method(),
+		"ip":       t.Ctx.Input.IP(),
+		"cookie":   t.Ctx.Input.Cookie("lang"),
+	}
+
+	utils.ToJson(t.Controller, data, "请求成功", "200")
+	return
 }

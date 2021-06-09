@@ -14,7 +14,7 @@ type ListController struct {
 // @Title List
 // @Description 文章列表
 // @Success 200
-// @router /article/list [post]
+// @router /article/list [get]
 func (this *ListController) List() {
 	var article []models.Article
 	o := orm.NewOrm()

@@ -14,80 +14,80 @@ paths:
   /admin/article/add:
     post:
       tags:
-        - admin
+      - admin
       description: 发布文章
       operationId: ArticleController.Create
       parameters:
-        - in: header
-          name: Authorization
-          description: 用户token
-          required: true
-          type: string
-        - in: formData
-          name: user_id
-          description: 文章作者
-          required: true
-          type: integer
-          format: int64
-        - in: formData
-          name: title
-          description: 文章标题
-          type: string
-        - in: formData
-          name: content
-          description: 文章内容
-          type: string
+      - in: header
+        name: Authorization
+        description: 用户token
+        required: true
+        type: string
+      - in: formData
+        name: user_id
+        description: 文章作者
+        required: true
+        type: integer
+        format: int64
+      - in: formData
+        name: title
+        description: 文章标题
+        type: string
+      - in: formData
+        name: content
+        description: 文章内容
+        type: string
       responses:
         "200":
           description: ""
   /admin/article/update:
     post:
       tags:
-        - admin
+      - admin
       description: 更新文章
       operationId: ArticleController.Edit
       parameters:
-        - in: header
-          name: Authorization
-          description: 用户token
-          required: true
-          type: string
-        - in: formData
-          name: id
-          description: 文章id
-          required: true
-          type: integer
-          format: int64
-        - in: formData
-          name: title
-          description: 文章标题
-          type: string
-        - in: formData
-          name: content
-          description: 文章内容
-          type: string
+      - in: header
+        name: Authorization
+        description: 用户token
+        required: true
+        type: string
+      - in: formData
+        name: id
+        description: 文章id
+        required: true
+        type: integer
+        format: int64
+      - in: formData
+        name: title
+        description: 文章标题
+        type: string
+      - in: formData
+        name: content
+        description: 文章内容
+        type: string
       responses:
         "200":
           description: ""
   /admin/userinfo:
     get:
       tags:
-        - admin
+      - admin
       description: 获取用户列表
       operationId: UserController.GetAll
       parameters:
-        - in: header
-          name: Authorization
-          description: 用户token
-          required: true
-          type: string
+      - in: header
+        name: Authorization
+        description: 用户token
+        required: true
+        type: string
       responses:
         "200":
           description: ""
   /article/list:
-    post:
+    get:
       tags:
-        - user/controllersListController
+      - user/controllersListController
       description: 文章列表
       operationId: ListController.List
       responses:
@@ -96,7 +96,7 @@ paths:
   /cache/exist:
     get:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 缓存是否失效
       operationId: TestController.Exist
       responses:
@@ -105,7 +105,7 @@ paths:
   /cache/get:
     get:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 缓存获取
       operationId: TestController.Get
       responses:
@@ -114,36 +114,63 @@ paths:
   /cache/set:
     get:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 缓存设置
       operationId: TestController.Set
+      responses:
+        "200":
+          description: ""
+  /context/info:
+    get:
+      tags:
+      - user/controllersTestController
+      description: 上下文context对象
+      operationId: TestController.Context
+      responses:
+        "200":
+          description: ""
+  /http/get:
+    get:
+      tags:
+      - user/controllersTestController
+      description: 客户端Get请求
+      operationId: TestController.HttpGet
+      responses:
+        "200":
+          description: ""
+  /http/post:
+    get:
+      tags:
+      - user/controllersTestController
+      description: 客户端Post请求
+      operationId: TestController.HttpPost
       responses:
         "200":
           description: ""
   /login:
     post:
       tags:
-        - user/controllersLoginController
+      - user/controllersLoginController
       description: 用户登录
       operationId: LoginController.Login
       parameters:
-        - in: formData
-          name: username
-          description: 用户名
-          required: true
-          type: string
-        - in: formData
-          name: password
-          description: 密码
-          required: true
-          type: string
+      - in: formData
+        name: username
+        description: 用户名
+        required: true
+        type: string
+      - in: formData
+        name: password
+        description: 密码
+        required: true
+        type: string
       responses:
         "200":
           description: ""
   /logs:
     post:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 日志
       operationId: TestController.Output
       responses:
@@ -152,20 +179,20 @@ paths:
   /register:
     post:
       tags:
-        - user/controllersLoginController
+      - user/controllersLoginController
       description: 用户注册
       operationId: LoginController.Register
       parameters:
-        - in: formData
-          name: username
-          description: 用户名
-          required: true
-          type: string
-        - in: formData
-          name: password
-          description: 密码
-          required: true
-          type: string
+      - in: formData
+        name: username
+        description: 用户名
+        required: true
+        type: string
+      - in: formData
+        name: password
+        description: 密码
+        required: true
+        type: string
       responses:
         "200":
           description: ""
