@@ -12,12 +12,13 @@ type ListController struct {
 }
 
 // @Title List
-// @Description 文章列表
+// @Description 获取文章列表
 // @Success 200
 // @router /article/list [get]
 func (this *ListController) List() {
 	var article []models.Article
 	o := orm.NewOrm()
+	orm.Debug = true
 	_, err := o.QueryTable("article").RelatedSel().All(&article)
 	if err != nil {
 		utils.ToJson(this.Controller, err.Error(), "读取失败", "400")
