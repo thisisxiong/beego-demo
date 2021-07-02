@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "beego API Doc",
+        "title": "项目文档",
         "description": "beego自动生成文档",
         "version": "1.0.0",
         "termsOfService": "http://beego.me/",
@@ -129,7 +129,7 @@
                 "tags": [
                     "user/controllersListController"
                 ],
-                "description": "文章列表",
+                "description": "获取文章列表",
                 "operationId": "ListController.List",
                 "responses": {
                     "200": {
@@ -289,6 +289,42 @@
                         "type": "string"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/test/error": {
+            "get": {
+                "tags": [
+                    "user/controllersTestController"
+                ],
+                "description": "自定义及重写错误",
+                "operationId": "TestController.Errorfun",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "code",
+                        "description": "自定义及重写错误",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/userlevel": {
+            "get": {
+                "tags": [
+                    "user/controllersTestController"
+                ],
+                "description": "用户级别列表",
+                "operationId": "TestController.Userlevel",
                 "responses": {
                     "200": {
                         "description": ""

@@ -2,7 +2,8 @@ package main
 
 import (
 	beego "github.com/beego/beego/v2/server/web"
-	_ "user/init"
+	"user/controllers"
+	//_ "user/init"
 	_ "user/routers"
 	_ "user/utils"
 )
@@ -13,6 +14,6 @@ func main() {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
-
+	beego.ErrorController(&controllers.ErrorController{})
 	beego.Run()
 }

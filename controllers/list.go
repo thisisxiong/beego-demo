@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	beego "github.com/beego/beego/v2/server/web"
 	"user/models"
 	"user/utils"
@@ -17,9 +16,10 @@ type ListController struct {
 // @router /article/list [get]
 func (this *ListController) List() {
 	var article []models.Article
-	o := orm.NewOrm()
-	orm.Debug = true
-	_, err := o.QueryTable("article").RelatedSel().All(&article)
+	o := models.Open(new(models.Article))
+	//orm.Debug = true
+	//_, err := o.QueryTable("article").RelatedSel().All(&article)
+	_, err := o.QueryTable("article").All(&article)
 	if err != nil {
 		utils.ToJson(this.Controller, err.Error(), "读取失败", "400")
 		return

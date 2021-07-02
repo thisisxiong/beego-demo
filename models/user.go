@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	Id       int	`json:"id"`
+	Id int `json:"id"`
 	//StructTag 校验
-	Username string `json:"username" valid:"Required;Match(/^\\w{5,18}$/)"`
-	Password string `json:"password"`
+	Username string    `json:"username" valid:"Required;Match(/^\\w{5,18}$/)"`
+	Password string    `json:"password"`
 	AddTime  time.Time `json:"add_time" orm:"auto_now_add;type(date)"`
 }
 
@@ -21,8 +21,8 @@ func (u *User) Valid(v *validation.Validation) {
 	//if b:=reg.FindString(u.Username); b == "" {
 	//	v.SetError("username","用户名为5-18位字母数字下划线组成")
 	//}
-	if strings.Index(u.Username,"admin") != -1 {
-		v.SetError("username","用户名不能含有 admin")
+	if strings.Index(u.Username, "admin") != -1 {
+		v.SetError("username", "用户名不能含有 admin")
 	}
 	//if b:=reg.FindString(u.Password); b == "" {
 	//	v.SetError("password","密码为5-18位字母数字下划线组成")
@@ -31,6 +31,10 @@ func (u *User) Valid(v *validation.Validation) {
 
 func (User) TableName() string {
 	return "user"
+}
+
+func (User) DbName() string {
+	return "blog"
 }
 
 func init() {

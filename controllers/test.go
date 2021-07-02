@@ -10,6 +10,7 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"time"
+	"user/models"
 	"user/utils"
 )
 
@@ -203,4 +204,28 @@ func (t *TestController) Context() {
 
 	utils.ToJson(t.Controller, data, "请求成功", "200")
 	return
+}
+
+// @Title Errorfun
+// @Description 自定义及重写错误
+// @Param code query string false 自定义及重写错误
+// @Success 200
+// @router /test/error [get]
+func (t *TestController) Errorfun() {
+	code := t.GetString("code", "403")
+	t.Abort(code)
+}
+
+// @Title Userlevel
+// @Description 用户级别列表
+// @Success 200
+// @router /userlevel [get]
+func (t *TestController) Userlevel() {
+	var level []models.UserLevel
+
+	o := models.Open(new(models.UserLevel))
+	o.QueryTable(&models.UserLevel{}).All(&level)
+	utils.ToJson(t.Controller, level, "请求成功", "200")
+	return
+
 }

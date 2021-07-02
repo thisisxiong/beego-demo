@@ -3,13 +3,13 @@ package controllers
 import (
 	"crypto/md5"
 	"fmt"
-	"github.com/beego/beego/v2/client/orm"
 	"github.com/beego/beego/v2/core/config"
 	"github.com/beego/beego/v2/core/validation"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 	"user/models"
+	"user/utils"
 )
 
 type LoginController struct {
@@ -29,35 +29,20 @@ func (l *LoginController) Register() {
 	user.Password = l.GetString("password")
 	b, _ := valid.Valid(&user)
 	if !b {
-		l.Data["json"] = map[string]interface{}{
-			"code":    400,
-			"data":    valid.Errors,
-			"message": valid.Errors,
-		}
-		l.ServeJSON()
+		utils.ToJson(l.Controller, valid.Errors, "验证失败", 417)
 		return
 	}
 
 	has := md5.Sum([]byte(user.Password))
 	user.Password = fmt.Sprintf("%x", has)
-	o := orm.NewOrm()
+	o := models.Open(&user)
 	_, err := o.Insert(&user)
 	if err != nil {
-		l.Data["json"] = map[string]interface{}{
-			"code":    417,
-			"data":    err,
-			"message": err,
-		}
-		l.ServeJSON()
+		utils.ToJson(l.Controller, err, "系统错误", 400)
 		return
 	}
 
-	l.Data["json"] = map[string]interface{}{
-		"code":    200,
-		"data":    user,
-		"message": "注册成功",
-	}
-	l.ServeJSON()
+	utils.ToJson(l.Controller, user, "注册成功", 200)
 	return
 
 }
@@ -72,49 +57,30 @@ func (l *LoginController) Login() {
 	username := l.GetString("username")
 	password := l.GetString("password")
 	if username == "" || password == "" {
-		l.Data["json"] = map[string]interface{}{
-			"code":    400,
-			"data":    "用户名密码不能为空",
-			"message": "用户名密码不能为空",
-		}
-		l.ServeJSON()
+		utils.ToJson(l.Controller, "", "用户名或密码错误", 417)
 		return
 	}
 	var user models.User
+
 	user.Username = username
 	has := md5.Sum([]byte(password))
 	user.Password = fmt.Sprintf("%x", has)
 
-	o := orm.NewOrm()
+	o := models.Open(&user)
 	err := o.QueryTable(&user).Filter("username", user.Username).Filter("password", user.Password).One(&user)
 	if err != nil {
-		l.Data["json"] = map[string]interface{}{
-			"code":    400,
-			"data":    err,
-			"message": "用户名密码错误",
-		}
-		l.ServeJSON()
+		utils.ToJson(l.Controller, err, "系统错误", 500)
 		return
 	}
 
 	secret, _ := config.String("secret")
 	token, err := CreateToken(string(user.Id), secret)
 	if err != nil {
-		l.Data["json"] = map[string]interface{}{
-			"code":    500,
-			"data":    "系统错误",
-			"message": "系统错误",
-		}
-		l.ServeJSON()
+		utils.ToJson(l.Controller, err, "创建token失败", 500)
 		return
 	}
 
-	l.Data["json"] = map[string]interface{}{
-		"code":    200,
-		"data":    token,
-		"message": "登录成功",
-	}
-	l.ServeJSON()
+	utils.ToJson(l.Controller, token, "登录成功", 200)
 	return
 
 }

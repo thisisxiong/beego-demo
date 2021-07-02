@@ -1,5 +1,5 @@
 // @APIVersion 1.0.0
-// @Title beego API Doc
+// @Title 项目文档
 // @Description beego自动生成文档
 // @Contact admin@admin.com
 // @TermsOfServiceUrl http://beego.me/

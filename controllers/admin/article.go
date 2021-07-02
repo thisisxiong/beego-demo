@@ -23,7 +23,7 @@ func (a *ArticleController) Create() {
 	article := models.Article{}
 	user := models.User{}
 	user.Id, _ = a.GetInt("user_id")
-	article.User = &user
+	//article.User = &user
 	err := a.ParseForm(&article)
 	if err != nil {
 		a.Data["json"] = map[string]interface{}{

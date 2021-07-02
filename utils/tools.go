@@ -29,12 +29,13 @@ func GetUnix() int64 {
 
 /**
 json返回
- */
-func ToJson(controller beego.Controller,data interface{},msg interface{},code interface{}) {
+*/
+func ToJson(controller beego.Controller, data interface{}, msg interface{}, code interface{}) {
 	controller.Data["json"] = map[string]interface{}{
-		"code":code,
-		"data":data,
-		"message":msg,
+		"code":      code,
+		"data":      data,
+		"message":   msg,
+		"timestamp": time.Now().Unix(),
 	}
 	controller.ServeJSON()
 }
