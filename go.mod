@@ -5,6 +5,8 @@ go 1.16
 require github.com/beego/beego/v2 v2.0.1
 
 require (
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
+	github.com/360EntSecGroup-Skylar/excelize/v2 v2.4.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/go-cmp v0.5.1 // indirect

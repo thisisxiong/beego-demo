@@ -28,6 +28,7 @@ func init() {
 			&controllers.LoginController{},
 			&controllers.TestController{},
 			&controllers.ListController{},
+			&controllers.ExcelController{},
 		),
 	)
 	beego.AddNamespace(ns)

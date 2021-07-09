@@ -7,8 +7,10 @@ import (
 	_ "github.com/beego/beego/v2/client/cache/redis"
 	"github.com/beego/beego/v2/client/httplib"
 	"github.com/beego/beego/v2/core/config"
+	_ "github.com/beego/beego/v2/core/config/json"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
+	"reflect"
 	"time"
 	"user/models"
 	"user/utils"
@@ -226,6 +228,38 @@ func (t *TestController) Userlevel() {
 	o := models.Open(new(models.UserLevel))
 	o.QueryTable(&models.UserLevel{}).All(&level)
 	utils.ToJson(t.Controller, level, "请求成功", "200")
+	return
+
+}
+
+// @Title Conf
+// @Description 配置文件
+// @Success 200
+// @router /conf [get]
+func (t *TestController) Conf() {
+	conf, err := config.NewConfig("json", "conf/test.json")
+	if err != nil {
+		utils.ToJson(t.Controller, err, "加载配置错误", "500")
+		return
+	}
+	db, err := conf.DIY("blog::master")
+	if err != nil {
+		utils.ToJson(t.Controller, err, "读取配置错误", "500")
+		return
+	}
+
+	logs.Info(reflect.TypeOf(db))
+	logs.Info(reflect.TypeOf(db).Kind())
+	switch reflect.TypeOf(db).Kind() {
+	case reflect.Slice, reflect.Array:
+		s := reflect.ValueOf(db)
+		for i := 0; i < s.Len(); i++ {
+			v := s.Index(i)
+			logs.Info(v)
+		}
+	}
+
+	utils.ToJson(t.Controller, db, "请求成功", "200")
 	return
 
 }

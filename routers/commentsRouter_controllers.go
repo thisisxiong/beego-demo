@@ -34,6 +34,33 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["user/controllers:ExcelController"] = append(beego.GlobalControllerRouter["user/controllers:ExcelController"],
+		beego.ControllerComments{
+			Method:           "Export",
+			Router:           "/excel/export",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["user/controllers:ExcelController"] = append(beego.GlobalControllerRouter["user/controllers:ExcelController"],
+		beego.ControllerComments{
+			Method:           "Read",
+			Router:           "/excel/read",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["user/controllers:ExcelController"] = append(beego.GlobalControllerRouter["user/controllers:ExcelController"],
+		beego.ControllerComments{
+			Method:           "Write",
+			Router:           "/excel/write",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["user/controllers:ListController"] = append(beego.GlobalControllerRouter["user/controllers:ListController"],
 		beego.ControllerComments{
 			Method:           "List",
@@ -83,6 +110,15 @@ func init() {
 		beego.ControllerComments{
 			Method:           "Set",
 			Router:           "/cache/set",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["user/controllers:TestController"] = append(beego.GlobalControllerRouter["user/controllers:TestController"],
+		beego.ControllerComments{
+			Method:           "Conf",
+			Router:           "/conf",
 			AllowHTTPMethods: []string{"get"},
 			MethodParams:     param.Make(),
 			Filters:          nil,

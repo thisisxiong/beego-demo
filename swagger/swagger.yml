@@ -120,12 +120,48 @@ paths:
       responses:
         "200":
           description: ""
+  /conf:
+    get:
+      tags:
+      - user/controllersTestController
+      description: 配置文件
+      operationId: TestController.Conf
+      responses:
+        "200":
+          description: ""
   /context/info:
     get:
       tags:
       - user/controllersTestController
       description: 上下文context对象
       operationId: TestController.Context
+      responses:
+        "200":
+          description: ""
+  /excel/export:
+    get:
+      tags:
+      - user/controllersExcelController
+      description: 数据表导出
+      operationId: ExcelController.Export
+      responses:
+        "200":
+          description: ""
+  /excel/read:
+    get:
+      tags:
+      - user/controllersExcelController
+      description: 读取excel
+      operationId: ExcelController.Read
+      responses:
+        "200":
+          description: ""
+  /excel/write:
+    get:
+      tags:
+      - user/controllersExcelController
+      description: 导出excel表格
+      operationId: ExcelController.Write
       responses:
         "200":
           description: ""
@@ -199,23 +235,29 @@ paths:
   /test/error:
     get:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 自定义及重写错误
       operationId: TestController.Errorfun
       parameters:
-        - in: query
-          name: code
-          description: 自定义及重写错误
-          type: string
+      - in: query
+        name: code
+        description: 自定义及重写错误
+        type: string
       responses:
         "200":
           description: ""
   /userlevel:
     get:
       tags:
-        - user/controllersTestController
+      - user/controllersTestController
       description: 用户级别列表
       operationId: TestController.Userlevel
       responses:
         "200":
           description: ""
+tags:
+- name: user/controllersExcelController
+  description: |
+    *
+     * Excel操作
+     * 文档地址：https://xuri.me/excelize/zh-hans/
